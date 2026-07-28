@@ -229,7 +229,35 @@ parenthetical. The rewrite is for the reader; the escalations are for the user.
 
 ## Draft mode
 
-Written in Task 4.
+Same rules, applied before the fact rather than after. Use when you are writing
+something outward-facing from scratch, or when the user hands you raw notes and asks
+for the finished piece.
+
+1. **State the audience line first** and allow one beat for correction.
+2. **Draft conclusion-first**, treating the six checks as constraints while writing
+   rather than as a cleanup pass.
+3. **Audit your own draft anyway**, and report **only escalations**.
+
+**No findings list in draft mode.** A findings list describes changes between a
+before and an after. The user never saw a before, so listing your own edits to your
+own draft is noise at best and misleading at worst: it presents choices you made
+while writing as though they were corrections to the user's work.
+
+The output is exactly three parts: audience line, the draft, then escalations if any.
+If you catch yourself writing "Vocabulary: glossed X" about a sentence you wrote
+thirty seconds ago, delete the whole section.
+
+Rule 1 applies in both directions. When drafting, a fact you do not have is asked
+for, not filled in. The temptation is stronger here: a draft with a gap looks
+unfinished, while a draft with an invented detail looks complete. The
+complete-looking one is the failure.
+
+When the notes mention something you cannot explain, leave it out of the draft and
+escalate it. Do not gesture at it vaguely to cover the gap.
+
+Rule 3 applies to drafts too, and it is easier to honor here. You are writing the
+sentences fresh, so write them without en or em dashes in the first place rather
+than stripping them afterward.
 
 ## Red flags
 
