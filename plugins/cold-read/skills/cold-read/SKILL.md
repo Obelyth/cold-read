@@ -5,4 +5,237 @@ description: Use when text is going to be read by someone outside this session: 
 
 # Cold Read
 
-Body written in Task 3.
+## Overview
+
+Claude writes for a reader who was in the room.
+
+Text produced inside a working session carries that session's context: repo names,
+table names, decisions made an hour ago, jargon traded all day. The reader has none
+of it. The result is text that is over-written and under-explained at the same time.
+Long, because there was context to spend. Opaque, because none of it transferred.
+
+This skill performs the context transplant. Give it text, and it returns a version a
+smart reader with zero project background can follow, and tells you where it could
+not, instead of guessing.
+
+**Two modes, one rule set:**
+
+- **Audit** (default). You have text; the skill rewrites it and reports what changed.
+- **Draft.** You are about to write; the skill applies the same checks up front. See
+  "Draft mode" below.
+
+## Audience: infer, state, floor
+
+1. **Infer** the reader from the artifact. A PR description is read by another
+   engineer; a status report by a manager; a client email by a non-technical outsider.
+2. **State** the inference in one line, before anything else, so it can be corrected
+   cheaply.
+3. **Floor** every assumption at *smart person, zero project context*. Inference may
+   raise the register. It may never license unexplained internal vocabulary.
+
+Ask about the audience only when the inference is genuinely ambiguous. One question,
+then proceed.
+
+## The six checks
+
+Run all six, in order. Every finding is tagged with the check that produced it.
+
+| Check | Catches |
+|---|---|
+| **Vocabulary** | Internal names, acronyms, repo/service/table names, ticket IDs, tool names used without a gloss |
+| **Backstory** | Sentences that only parse if you know what happened earlier |
+| **Stakes** | Says what happened, never why the reader should care |
+| **Framing** | Numbers and technical detail with no reference point |
+| **Structure** | Organized the way the work happened (chronological, per-file, per-commit) instead of conclusion-first |
+| **Volume** | Long because there was context to spend, not because the reader needs it |
+
+**Volume authorizes deletion.** The reflex when asked to clarify is to *add*
+explanation, or to convert prose into bullets, which changes the shape without
+changing the length. Neither is the job. Most over-written context-heavy text should
+come out shorter. Cutting a section is a legitimate finding; say what you cut and why.
+
+Reformatting is not cutting. If the source walks through five days of work and your
+version has five bullets, you have not applied this check.
+
+Neither is compressing each part. Turning five days of narration into four tight
+paragraphs that still cover all five days is the same failure at a smaller size. Ask
+what the reader will act on or remember, keep that, and drop the rest entirely. For a
+process-heavy source, the honest answer is usually a small fraction of the original.
+"Where the week went" is rarely one of the things worth keeping.
+
+## Hard rules
+
+These override everything else, including the user's apparent wish for a finished
+document.
+
+### Rule 1. Never invent context
+
+If a sentence cannot be made clear without a fact that is not in the source text, it
+does not get a plausible gloss. It becomes an escalation: a direct question.
+
+This is the whole difference between this skill and "simplify this." Without it, the
+characteristic failure is a confident, fluent, wrong summary. Plain language makes
+fabrication *more* believable, not less, so a smooth guess here is worse than an
+awkward question.
+
+You are not failing the task by escalating. Escalating **is** the task.
+
+Watch for the quiet version of this. Replacing "within tolerance" with "within
+expected range" feels like a clarification and is actually an invention: it asserts a
+standard nobody stated. If you cannot name the threshold, the phrase is an escalation,
+not a rewording.
+
+### Rule 2. Preserve claim strength
+
+Cut, reorder, retitle, and re-register freely. Never change how strongly a claim is
+made, **in either direction**.
+
+Do not strengthen:
+
+- "Probably fixed" does not become "fixed."
+- "Appeared to help" does not become "reduced the timeouts."
+- "We think it will hold" does not become "it will hold."
+
+Do not weaken either:
+
+- "That's a downstream issue, not ours" does not become "our current read is that it
+  may originate downstream."
+- A flat statement does not acquire a hedge because the claim seems risky to you.
+
+Hedges are load-bearing, and so is their absence. If a claim looks overconfident for
+the audience, that is an escalation ("you assert this is not our issue; do you want
+that stated flatly to an outside reader?"), not a silent edit.
+
+Note the trap: rewriting hedges into "plain statements of what we know versus what we
+assume" feels like clarity work. It is a Rule 2 violation wearing a good disguise.
+
+### Rule 3. No en dashes or em dashes
+
+The rewrite, the findings, and the escalations must contain no en dash (U+2013) and
+no em dash (U+2014). Hyphens in compound words are fine.
+
+This is not a style preference. Text produced here goes out under a person's name,
+and dash-heavy punctuation is the most recognizable signature of machine-written
+prose. A reader who notices it stops evaluating the content and starts evaluating
+where it came from.
+
+Replace them, do not delete them:
+
+| Where a dash was doing the work | Use instead |
+|---|---|
+| Setting off an aside | Commas, or parentheses |
+| Introducing an explanation | A colon |
+| Joining two independent clauses | A full stop, or a semicolon |
+| A numeric range | "3 to 5" |
+| A date span | "Monday to Friday" |
+
+Splitting into two sentences is almost always the best fix. A sentence that needed a
+dash was usually doing two jobs.
+
+This section deliberately describes the characters rather than printing them, so that
+this file passes its own check.
+
+Check the finished output for both characters before returning it. This one is
+mechanical, so there is no judgment call and no excuse for a miss. Note that a range
+written with a dash survives editing very easily: expanding "Sat" to "Saturday" while
+leaving the dash between the two days is a miss, not a partial success.
+
+### Corollary. No-op is a valid result
+
+If the text already reads cleanly to an outsider, say so and return it essentially
+unchanged. An invoked skill feels pressure to justify itself by rewriting. Reject that
+pressure. "This is already clear; I changed two words" is a good outcome, not a
+wasted turn.
+
+Noticing that the text is already fine does not license restructuring it anyway.
+Adding headers, subject lines, or bold labels to clear prose is rewriting, and
+offering two alternative versions is rewriting twice.
+
+Rule 3 is the one exception. If the source text contains en or em dashes, replacing
+them is a required change even when nothing else needs touching.
+
+## Output contract
+
+Always this order. Never reordered, never merged.
+
+**1. Audience line.** One line, before everything:
+
+```
+Written for: a manager who doesn't work on this project.
+```
+
+**2. The rewrite.** Clean text, ready to paste.
+
+"Ready to paste" is a hard constraint, and it is the one most often broken. The
+rewrite must contain:
+
+- No placeholders. Not `[X]ms`, not `TBD`, not a blank to fill in.
+- No bracketed notes, change markers, or tracked diffs.
+- No advice to the reader about the text. "These are internal terms, gloss them if
+  your recipient does not share the vocabulary" is not a rewrite. It is the job,
+  handed back undone.
+- No jargon left standing on the theory that the user can decide.
+
+If you know a term needs glossing, gloss it. If you cannot gloss it without a fact
+you do not have, escalate it and leave it out of the rewrite. Those are the only two
+options. Passing the decision back to the user is the failure this skill exists to
+prevent, because the user is the one person who cannot see the problem: they have the
+context.
+
+A term you escalate does not also stay in the rewrite. Escalating "within tolerance"
+and then writing "the counts came back within tolerance" is both options at once,
+which leaves the reader exactly where they started. Cut the phrase, or say the
+concrete thing you do know ("the counts came back up"), and ask your question in the
+escalations.
+
+**Return one rewrite.** Do your checking before you answer, not in front of the user.
+If you draft something and then notice it breaks a rule, fix it silently and return
+the fixed version. A visible correction, a second "here it is without the
+placeholder" pass, or two alternative versions to choose from all put your working
+process into a deliverable that is supposed to be paste-ready. The user asked for
+text to send, not a demonstration that the rules were followed.
+
+**3. Findings.** One line per change, tagged by check, compressed.
+
+Use only these tags: **Vocabulary**, **Backstory**, **Stakes**, **Framing**,
+**Structure**, **Volume**, **Typography**. Do not invent new ones. "Claim", "No-op",
+and "Tone" are not tags; if a claim was preserved rather than changed, that is not a
+finding at all, because nothing changed.
+
+Tag by the check that caught the problem, not by what you did about it. A number with
+no baseline is a **Framing** finding even when the resolution was to escalate rather
+than to fix it. If a check found something you could not resolve, say so on its line
+and point at the escalation.
+
+```
+Vocabulary  "task_progress" → "the per-task progress table"
+Backstory   Added one sentence on why the sync was rebuilt
+Stakes      Opened with the outcome; fix detail moved down
+Volume      Cut §3 (build log narration), 240 words, no reader value
+Typography  Replaced 3 em dashes with colons and full stops
+```
+
+**4. Escalations.** Only when they exist. Always questions, never guesses:
+
+```
+⚠ 2 things I couldn't explain without knowing more:
+  · Line 12 "the relay change": what was it, in one sentence?
+  · "within tolerance": what's the threshold, and who set it?
+```
+
+Escalations belong here and nowhere else. Do not append them to the rewrite as a
+closing paragraph of advice, and do not let them leak into the rewrite as a
+parenthetical. The rewrite is for the reader; the escalations are for the user.
+
+## Draft mode
+
+Written in Task 4.
+
+## Red flags
+
+Written in Task 5.
+
+## Worked examples
+
+See `references/examples.md` for two full before/afters: one heavy audit with
+escalations, one no-op.
