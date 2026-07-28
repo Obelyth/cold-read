@@ -12,7 +12,7 @@ goes with it. The reader gets something simultaneously over-written and under-ex
 ## Install
 
 ```
-/plugin marketplace add OWNER/cold-read
+/plugin marketplace add Obelyth/cold-read
 /plugin install cold-read@cold-read
 ```
 
