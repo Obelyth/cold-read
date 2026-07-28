@@ -29,7 +29,7 @@ A single skill with two modes sharing one rule set:
   so the first draft is already readable.
 
 Draft mode is a section of `SKILL.md`, not a second engine. Both modes reference the
-same six checks and the same two hard rules.
+same six checks and the same three hard rules.
 
 ## Naming and trigger
 
@@ -37,7 +37,7 @@ same six checks and the same two hard rules.
 
 **Description (the trigger surface):**
 
-> Use when text is going to be read by someone outside this session — a report, PR
+> Use when text is going to be read by someone outside this session: a report, PR
 > description, email, summary, doc, or post. Rewrites project-context-heavy writing so a
 > smart reader with zero background can follow it, and flags where context is missing
 > rather than inventing it.
@@ -82,7 +82,7 @@ context-heavy text should simply be shorter. Cutting is a valid finding.
 
 ## Hard rules
 
-Two rules override everything else in the skill.
+Three rules override everything else in the skill.
 
 ### Rule 1 — Never invent context
 
@@ -103,6 +103,31 @@ does not become "caused by."
 
 Plain language drifts toward false confidence; hedges are usually load-bearing. This
 rule guards the second failure mode.
+
+### Rule 3 — No en dashes or em dashes
+
+The rewrite, findings, and escalations must contain no en dash (U+2013) and no em dash
+(U+2014). Hyphens in compound words are unaffected.
+
+This is a mechanical constraint, not a style preference, and it is the one place this
+skill touches typography. Text produced here goes out under a person's name, and
+dash-heavy punctuation is the most recognizable signature of machine-written prose. A
+reader who notices it stops evaluating the content and starts evaluating its origin,
+which defeats the skill's entire purpose.
+
+Dashes are replaced, not deleted: a colon for an introduced explanation, commas or
+parentheses for an aside, a full stop for two joined clauses, "3 to 5" for a numeric
+range. Splitting the sentence is usually the best fix.
+
+Because the constraint is regex-enforceable, it is verified by a script
+(`tests/no_dashes.sh`) rather than trusted to judgment, per the guidance in
+`superpowers:writing-skills` that mechanical constraints belong in validation. The same
+script gates every shipped file, so the skill's own documentation and examples cannot
+model the behavior they forbid.
+
+Rule 3 is the one rule that can force a change to otherwise-clean text. If the source
+contains these characters, replacing them is required even when the no-op corollary
+would otherwise apply.
 
 ### Corollary — No-op is a valid result
 
@@ -136,7 +161,8 @@ One line per change, tagged by check. Compressed, not prose:
 Vocabulary  "task_progress" → "the per-task progress table"
 Backstory   Added one sentence explaining why the sync was rebuilt
 Stakes      Opened with the outcome; the fix detail moved down
-Volume      Cut §3 (build log narration) — 240 words, no reader value
+Volume      Cut §3 (build log narration), 240 words, no reader value
+Typography  Replaced 3 em dashes with colons and full stops
 ```
 
 ### 4. Escalations
@@ -209,6 +235,7 @@ and holds only the two teaching examples.
 | Text that is already plain and clear | Returns near-unchanged; states that it is already fine |
 | Text with a buried conclusion | Conclusion moves to the top |
 | Text mixing internal jargon with real numbers | Both Vocabulary and Framing findings appear, correctly tagged |
+| Clear text containing en and em dashes | Zero dashes in output; a Typography finding; content otherwise untouched |
 
 The already-clear fixture is the sneakiest: an invoked skill wants to justify itself by
 rewriting. It is tested explicitly.
@@ -218,7 +245,9 @@ rewriting. It is tested explicitly.
 - Automatic firing on artifact types (PR descriptions, commit messages, and similar).
   Explicit invocation only, per the trigger decision above.
 - Tone, brand, or house-style enforcement. `cold-read` targets comprehensibility, not
-  voice.
+  voice. Rule 3 is the sole typography constraint and is included because it is
+  mechanical and because dash punctuation is an origin signal rather than a style
+  choice; it is not a precedent for further style rules.
 - Translation between human languages.
 - Reading-level scoring or readability metrics. The six checks are the standard; a
   Flesch score is not.
