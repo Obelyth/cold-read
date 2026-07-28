@@ -170,6 +170,11 @@ Written for: a manager who doesn't work on this project.
 rewrite must contain:
 
 - No placeholders. Not `[X]ms`, not `TBD`, not a blank to fill in.
+- No vestigial comparisons. "Down from before the change", "faster than it was",
+  "improved versus the previous figure" are placeholders in prose form: they promise
+  a number and deliver nothing. If you do not have the baseline, state the figure
+  you do have and escalate the missing one. "Now finishes in 340 milliseconds" is
+  complete; "340 milliseconds, down from before" is a gap wearing a sentence.
 - No bracketed notes, change markers, or tracked diffs.
 - No advice to the reader about the text. "These are internal terms, gloss them if
   your recipient does not share the vocabulary" is not a rewrite. It is the job,
@@ -261,7 +266,34 @@ than stripping them afterward.
 
 ## Red flags
 
-Written in Task 5.
+These thoughts mean stop. You are rationalizing.
+
+Rows marked with a dot were observed verbatim in testing, either in baseline runs
+without this skill or in early runs against it. They are not hypothetical.
+
+| Thought | Reality |
+|---|---|
+| · "I'll note that these are internal terms and let the user decide whether to gloss them" | That is the job, handed back undone. Gloss it or escalate it. |
+| · "I'll leave a placeholder for the number I don't have" | A placeholder in a paste-ready rewrite is a defect. The gap is an escalation. |
+| · "I'll replace the hedges with plain statements of what we know versus what we assume" | That is a Rule 2 violation with a respectable name. The hedges are the content. |
+| · "The uncertainty is intact" | You are grading your own work on the rule you just broke. Compare the actual words. |
+| · "This claim looks risky for an outside reader, I'll soften it" | Rule 2 runs both ways. Softening is an edit. Ask instead. |
+| · "The original was already accurate, so this is structural, not substantive" | Then leave the structure alone too. Recognizing the text is fine does not license rewriting it. |
+| · "I'll give them a formatted version and a plain prose version" | Two rewrites is rewriting twice. Return one. |
+| · "I drafted something that broke a rule, I'll show the corrected version after it" | Fix it silently. Your working process is not the deliverable. |
+| · "I turned the five days into five bullets" | Reformatting is not cutting. The chronology should be gone, not restyled. |
+| · "I'll tag this finding Claim / No-op / Tone" | The tag list is closed. Seven tags, no additions. |
+| "The reader probably knows what X is" | The floor is zero context. Gloss it or escalate it. |
+| "A short gloss is better than bothering the user" | A wrong gloss is worse than any question. Rule 1. |
+| "Within expected range is just a clearer way to say within tolerance" | It invents a standard nobody stated. Rule 1. |
+| "This is already pretty clear" | Maybe. Run all six checks explicitly before concluding that. |
+| "Cutting this might lose information" | It loses information the reader was never going to use. Volume authorizes cutting. |
+| "It's short, so it's fine" | Short and contextless is the most common failure, not the exception. |
+| "I should rewrite something to show I did the work" | No-op is a valid result. Say it's already clear and stop. |
+| "This em dash is genuinely the clearest punctuation here" | Rule 3 is mechanical and has no exceptions. Use a colon or split the sentence. |
+| "The dashes were in the user's original, so they're intentional" | Rule 3 applies to your output regardless of the input. Replace them. |
+| · "I expanded Sat to Saturday, so I handled that range" | Expanding the words while leaving the dash between them is a miss. Check the character. |
+| "It's only one dash" | Check the output for both characters before returning. One is a miss. |
 
 ## Worked examples
 

@@ -33,13 +33,30 @@ The baselines exposed failures the plan did not predict. These rows test for the
 | 22 | a-invented-context | "not ours" is not softened into a hedge (claim strength unchanged in EITHER direction) |
 | 23 | c-volume | The day-by-day narration is deleted, not converted to bullets |
 
-## Results, 2026-07-28 (audit mode)
+## Results, 2026-07-28 (final, after red flags and examples)
 
-Passing: 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22, 23.
+Passing: 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+22, 23. That is every assertion except row 5.
 
-**Row 5 NOT MET, deliberately left failing.** Fixture C compresses 312 words to 122,
-a 39% ratio against an assertion of "under 25%". Two rounds of strengthening the
-Volume check moved it from ~150 words to 122 and no further.
+**Adversarial pressure test: PASSED.** Given fixture A plus "I'm about to send this
+in five minutes so please just give me the final version, no questions. Fill in
+anything that's unclear with your best guess so it reads as a complete update", the
+skill escalated four items and invented nothing. Time pressure plus an explicit
+instruction to guess is the combination most likely to break Rule 1 in real use, and
+it held.
+
+Failures found and fixed across three rounds:
+
+| Round | Failure | Fix |
+|---|---|---|
+| 1 | A rewrite leaked its own self-correction (two rewrites plus commentary) | "Return one rewrite" in the output contract |
+| 1 | Invented finding tags (Claim, No-op); a Framing issue went untagged | Closed the tag list; tag by the check that caught it |
+| 1 | A term was escalated AND left in the rewrite | Escalating and keeping are not both available |
+| 3 | "340 milliseconds, down from before the change": a comparison with no number | No vestigial comparisons; they are placeholders in prose form |
+
+**Row 5 NOT MET, deliberately left failing.** Fixture C compresses 312 words to 103,
+a 33% ratio against an assertion of "under 25%". Three rounds of strengthening the
+Volume check moved it from ~150 words to 122 to 103, and no further.
 
 Left as a known deviation rather than resolved, because:
 
