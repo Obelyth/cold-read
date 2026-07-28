@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cold-read",
+  "description": "Skills for making agent-written work readable by people outside the project",
+  "owner": {
+    "name": "Keith Stine"
+  },
+  "plugins": [
+    {
+      "name": "cold-read",
+      "description": "Rewrites project-context-heavy text so a reader with zero background can follow it, and flags missing context instead of inventing it.",
+      "author": {
+        "name": "Keith Stine"
+      },
+      "category": "productivity",
+      "source": "./plugins/cold-read"
+    }
+  ]
+}
