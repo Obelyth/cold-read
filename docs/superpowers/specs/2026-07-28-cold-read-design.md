@@ -176,7 +176,9 @@ cold-read/
 │   ├── .claude-plugin/plugin.json
 │   └── skills/cold-read/
 │       ├── SKILL.md                     # rules, checks, output contract
-│       └── references/examples.md       # worked before/afters, test fixtures
+│       └── references/examples.md       # worked before/afters (ships)
+├── tests/fixtures/                      # adversarial fixtures (not shipped)
+├── tests/baselines/                     # captured no-skill behavior (not shipped)
 ├── docs/superpowers/specs/              # this document
 └── README.md                            # install line, what it does, example
 ```
@@ -195,14 +197,15 @@ Owning the marketplace leaves the door open to submitting the plugin to
 ## Testing
 
 `cold-read` is a prose skill, so its tests are adversarial fixtures, stored in
-`references/examples.md` and run by hand before publishing. Each fixture pins one
-failure mode.
+`tests/fixtures/` and run against subagents before publishing. Each fixture pins one
+failure mode. Fixtures are not shipped with the plugin; `references/examples.md` ships
+and holds only the two teaching examples.
 
 | Fixture | Required behavior |
 |---|---|
 | Text with an unexplained internal reference | Escalates; does not gloss |
 | Text containing a hedge ("probably fixed") | Hedge survives the rewrite verbatim in strength |
-| Bloated ~800-word status report | Output is materially shorter |
+| Bloated multi-section status report | Output is materially shorter |
 | Text that is already plain and clear | Returns near-unchanged; states that it is already fine |
 | Text with a buried conclusion | Conclusion moves to the top |
 | Text mixing internal jargon with real numbers | Both Vocabulary and Framing findings appear, correctly tagged |
