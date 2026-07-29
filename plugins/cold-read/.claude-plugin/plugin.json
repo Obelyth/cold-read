@@ -1,0 +1,7 @@
+{
+  "name": "cold-read",
+  "description": "Rewrites project-context-heavy text so a reader with zero background can follow it, and flags missing context instead of inventing it.",
+  "author": {
+    "name": "Obelyth"
+  }
+}
